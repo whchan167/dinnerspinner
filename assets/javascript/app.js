@@ -1,6 +1,3 @@
-//array for different food
-var food = ["korean", "japanese", "chinese", "burgers", "seafood", "pizza", "Italian"]
-
 //create empty array to store zip code entered
 var zip = [];
 
@@ -25,14 +22,20 @@ $("#Addzip").on('click', function(){
 //create a specific function to display google map in response to the zip code entered
 function zipcode() {
 	
-	//clear previous map
+	//clear previous map and iput
+	$("#zip-iput").empty();
 	$("#googlemap").empty();
 
 	//constructing the queryURL
-	
+	APikey =""
+	queryURL=
 
+	//AJAX request from google map
+	$.ajax({url:queryURL, method: "GET"
+		
+		//get results from request
+		}).done(function(response){
+			console.log(queryURL);
+			console.log(response);
 
-
-
-
-}
+		})
