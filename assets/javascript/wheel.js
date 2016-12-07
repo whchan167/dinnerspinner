@@ -87,4 +87,4 @@ playGame.prototype = {
           foodText.text = slicefood[food];
      }
 }
-$(document).ready(wheeler)
+//$(document).ready(wheeler)
