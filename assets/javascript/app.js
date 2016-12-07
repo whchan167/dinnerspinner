@@ -27,7 +27,7 @@ function zipcode() {
 	$("#googlemap").empty();
 
 	//constructing the queryURL
-	APikey =""
+	APikey ="AIzaSyA3WjE2RZUtl1Tz-dP8-rthqZVAfox_Ztg";
 	queryURL=
 
 	//AJAX request from google map
