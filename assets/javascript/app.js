@@ -100,8 +100,8 @@ function easeOut(t, b, c, d) {
   var tc = ts*t;
   return b+c*(tc + -3*ts + 3*t);
 }
-drawRouletteWheel();
-spin();
+
+
 
 //==========google map API==========
 //create variable for coordinates
@@ -164,4 +164,4 @@ function initMap() {
 
       };
 		
-	$(document).ready(initMap);
+	$(document).ready(drawRouletteWheel, spin, initMap);
