@@ -1,159 +1,167 @@
-// the game itself
-var game;
-// the spinning wheel
-var wheel; 
-// can the wheel spin?
-var canSpin;
-// slices (prizes) placed in the wheel
-var slices = 8;
-//array for different food, starting from 12 o'clock going clockwise
-var slicefood = ["Korean", "Japanese", "Chinese", "Burgers", "Seafood", "Pizza", "Italian", "American"];
-// food you chose
-var food;
-// text field where food is choosen
-var foodText;
- 
-function wheeler(){
-     // creation of a 500x500 wheel
-	game = new Phaser.Game(458, 488, Phaser.AUTO, "");
-     // adding "PlayGame" state
-     game.state.add("PlayGame",playGame);
-     // launching "PlayGame" state
-     game.state.start("PlayGame");
-};
- 
-// PLAYGAME STATE
-	
-var playGame = function(game){};
- 
-playGame.prototype = {
-     // function to be executed once the state preloads
-     preload: function(){
-          // preloading graphic assets
-          game.load.image("wheel", "assets/images/wheel.png");
-		game.load.image("pin", "assets/images/pin.png");     
-     },
-     // funtion to be executed when the state is created
-  	create: function(){
-           // giving some color to background
-          game.stage.backgroundColor = "#880044";
-          // adding the wheel in the middle of the canvas
-  		wheel = game.add.sprite(game.width / 2, game.width / 2, "wheel");
-          // setting wheel registration point in its center
-          wheel.anchor.set(0.5);
-          // adding the pin in the middle of the canvas
-          var pin = game.add.sprite(game.width / 2, game.width / 2, "pin");
-          // setting pin registration point in its center
-          pin.anchor.set(0.5);
-          // adding the text field
-          foodText = game.add.text(game.world.centerX, 480, "");
-          // setting text field registration point in its center
-          foodText.anchor.set(0.5);
-          // aligning the text to center
-          foodText.align = "center";
-          // the game has just started = we can spin the wheel
-          canSpin = true;
-          // waiting for your input, then calling "spin" function
-          game.input.onDown.add(this.spin, this);		
-	},
-     // function to spin the wheel
-     spin(){
-          // can we spin the wheel?
-          if(canSpin){  
-               // resetting text field
-               foodText.text = "";
-               // the wheel will spin round from 2 to 4 times. This is just coreography
-               var rounds = game.rnd.between(2, 4);
-               // then will rotate by a random number from 0 to 360 degrees. This is the actual spin
-               var degrees = game.rnd.between(0, 360);
-               // before the wheel ends spinning, we already know the prize according to "degrees" rotation and the number of slices
-               food = slices - 1 - Math.floor(degrees / (360 / slices));
-               // now the wheel cannot spin because it's already spinning
-               canSpin = false;
-               // animation tweeen for the spin: duration 3s, will rotate by (360 * rounds + degrees) degrees
-               // the quadratic easing will simulate friction
-               var spinTween = game.add.tween(wheel).to({
-                    angle: 360 * rounds + degrees
-               }, 3000, Phaser.Easing.Quadratic.Out, true);
-               // once the tween is completed, call winPrize function
-               spinTween.onComplete.add(this.getfood, this);
-          }
-     },
-     // function to assign the food
-     getfood(){
-          // now we can spin the wheel again
-          canSpin = true;
-          // display food
-          foodText.text = slicefood[food];
-     }
+var colors = ["#B8D430", "#3AB745", "#029990", "#3501CB",
+             "#2E2C75", "#673A7E", "#CC0071", "#F80120",
+             "#F35B20", "#FB9A00", "#FFCC00", "#FEF200","#FB9A00", "#FFCC00"];
+var restaraunts = ["Korean", "Indian", "Italian", "Sandwiches","Burgers", "Breakfast",
+                   "Mexican", "Caribbean","Vietnamese", "Chinese",
+                   "Seafood", "Pizza", "Thai", "Japanese"];
+var startAngle = 0;
+var arc = Math.PI / 6;
+var spinTimeout = null;
+var spinArcStart = 10;
+var spinTime = 0;
+var spinTimeTotal = 0;
+var ctx;
+   
+function drawRouletteWheel() {
+  var canvas = document.getElementById("canvas");
+  if (canvas.getContext) {
+    var outsideRadius = 200;
+    var textRadius = 160;
+    var insideRadius = 125;
+   
+    ctx = canvas.getContext("2d");
+    ctx.clearRect(0,0,500,500);
+   
+   
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+   
+    ctx.font = 'bold 12px Helvetica, Arial';
+   
+    for(var i = 0; i < 12; i++) {
+      var angle = startAngle + i * arc;
+      ctx.fillStyle = colors[i];
+     
+      ctx.beginPath();
+      ctx.arc(250, 250, outsideRadius, angle, angle + arc, false);
+      ctx.arc(250, 250, insideRadius, angle + arc, angle, true);
+      ctx.stroke();
+      ctx.fill();
+     
+      ctx.save();
+      ctx.shadowOffsetX = -1;
+      ctx.shadowOffsetY = -1;
+      ctx.shadowBlur    = 0;
+      ctx.shadowColor   = "rgb(220,220,220)";
+      ctx.fillStyle = "black";
+      ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius,
+                    250 + Math.sin(angle + arc / 2) * textRadius);
+      ctx.rotate(angle + arc / 2 + Math.PI / 2);
+      var text = restaraunts[i];
+      ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
+      ctx.restore();
+    }
+   
+    //Arrow
+    ctx.fillStyle = "black";
+    ctx.beginPath();
+    ctx.moveTo(250 - 4, 250 - (outsideRadius + 5));
+    ctx.lineTo(250 + 4, 250 - (outsideRadius + 5));
+    ctx.lineTo(250 + 4, 250 - (outsideRadius - 5));
+    ctx.lineTo(250 + 9, 250 - (outsideRadius - 5));
+    ctx.lineTo(250 + 0, 250 - (outsideRadius - 13));
+    ctx.lineTo(250 - 9, 250 - (outsideRadius - 5));
+    ctx.lineTo(250 - 4, 250 - (outsideRadius - 5));
+    ctx.lineTo(250 - 4, 250 - (outsideRadius + 5));
+    ctx.fill();
+  }
 }
-//$(document).ready(wheeler)
-
-
-
-
-
-//create empty array to store zip code entered
-var zip = [];
-
-//==========create the form for user to enter the zip code===========
-//add event listener to the div addAnime
-$("#Addzip").on('click', function(){
-
-	//creating variable to input typed in the textbox
-	var zipcode = $("#zip-input").val().trim();
-
-	//new anime entered added to the end of array
-	zip.push(zipcode);
-
-	//console log zip after zip code entered
-	console.log(zip);
-
-	//prevent page to refresh
-	return false;
-});
-
-
+   
+function spin() {
+  spinAngleStart = Math.random() * 10 + 10;
+  spinTime = 0;
+  spinTimeTotal = Math.random() * 3 + 4 * 1000;
+  rotateWheel();
+}
+function rotateWheel() {
+  spinTime += 30;
+  if(spinTime >= spinTimeTotal) {
+    stopRotateWheel();
+    return;
+  }
+  var spinAngle = spinAngleStart - easeOut(spinTime, 0, spinAngleStart, spinTimeTotal);
+  startAngle += (spinAngle * Math.PI / 180);
+  drawRouletteWheel();
+  spinTimeout = setTimeout('rotateWheel()', 30);
+}
+function stopRotateWheel() {
+  clearTimeout(spinTimeout);
+  var degrees = startAngle * 180 / Math.PI + 90;
+  var arcd = arc * 180 / Math.PI;
+  var index = Math.floor((360 - degrees % 360) / arcd);
+  ctx.save();
+  ctx.font = 'bold 30px Helvetica, Arial';
+  var text = restaraunts[index]
+  ctx.fillText(text, 250 - ctx.measureText(text).width / 2, 250 + 10);
+  ctx.restore();
+}
+function easeOut(t, b, c, d) {
+  var ts = (t/=d)*t;
+  var tc = ts*t;
+  return b+c*(tc + -3*ts + 3*t);
+}
+drawRouletteWheel();
+spin();
 
 //==========google map API==========
-//create variable for food search
-var service;
+//create variable for coordinates
+var coordinates=[];
+var address;
 
-function processResults(results, status){
-	console.log(results);
-for (var i = 0; i<results.length; i++) {
-     var marker = new google.maps.Marker({
-          position: results[i].geometry.location,
-          map: map
-        });
-	}
-}
+
+function geocodeAddress(geocoder, resultsMap) {
+        geocoder.geocode({'address': address}, function(results, status) {
+            if (status === 'OK') {
+            //coords = results[0].geometry.location;
+            //coordinates.push(coords.nb);
+            //coordinates.push(coords.ob);
+            //console.log(results);
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
+            });
+            }
+       		});
+    		};
+
 
 //
-function initMap(location) {
+function initMap() {
+		//create geocoder to get coordinates
+		var geocoder = new google.maps.Geocoder();
 
-		console.log(location);
+		//add event listener to add coordinates to the empty array
+		$("#submit").on("click", function(){
+		address = document.getElementById('address').value;
+		geocodeAddress(geocoder, map);
+		return false;
+		});
 
+		var location = {lat: coordinates[0], lng: coordinates[1]};
         // Create a map object and specify the DOM element for display.
-        var currentlocation = {lat: location.coords.latitude, lng: location.coords.longitude}
         var map = new google.maps.Map(document.getElementById('map'), {
-          center: currentlocation,
+          center: location,
           scrollwheel: false,
           zoom: 12
         });
 
-        var marker = new google.maps.Marker({
-          position: currentlocation,
-          map: map
-        });
-
-        service = new google.maps.places.PlacesService(map);
+        var service = new google.maps.places.PlacesService(map);
         service.nearbySearch({
-    	location: currentlocation,
-    	radius: 500,
+      	location: location,
+      	radius: 500,
         }, processResults);
-      };
 
-$(document).ready(function(){
-	navigator.geolocation.getCurrentPosition(initMap);
-});
+        function processResults(result){
+  		console.log(result);
+		for (var i = 0; i<result.length; i++) {
+     		var marker = new google.maps.Marker({
+          		position: result[i].geometry.location,
+         		 map: map
+        	});
+  			}
+		}
+
+      };
+		
+	$(document).ready(initMap);
