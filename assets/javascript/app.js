@@ -1,3 +1,6 @@
+
+
+
 var colors = ["#B8D430", "#3AB745", "#029990", "#3501CB",
              "#2E2C75", "#673A7E", "#CC0071", "#F80120",
              "#F35B20", "#FB9A00", "#FFCC00", "#FEF200","#FB9A00", "#FFCC00"];
@@ -11,9 +14,19 @@ var spinArcStart = 10;
 var spinTime = 0;
 var spinTimeTotal = 0;
 var ctx;
+<<<<<<< HEAD
 var chosenfood=[];
  
  $("#spin").on("click", spin);
+=======
+
+
+   
+    $("#spin").on('click', spin);
+  
+    
+   
+>>>>>>> 2a09574b51d1d3bb33b2f5c78af292ee8d1b72b1
 
 function drawRouletteWheel() {
   var canvas = document.getElementById("canvas");
@@ -70,7 +83,7 @@ function drawRouletteWheel() {
   }
 }
    
-function spin() {
+function spin() { 
   spinAngleStart = Math.random() * 10 + 10;
   spinTime = 0;
   spinTimeTotal = Math.random() * 3 + 4 * 1000;
@@ -148,6 +161,7 @@ function initMap() {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -155,3 +169,9 @@ function initMap() {
         
 };
 $(document).ready(drawRouletteWheel, initMap); 
+=======
+      };
+		
+	$(document).ready(drawRouletteWheel, initMap);
+   // end of document ready function  
+>>>>>>> 2a09574b51d1d3bb33b2f5c78af292ee8d1b72b1
