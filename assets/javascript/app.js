@@ -148,12 +148,16 @@ function initMap() {
           scrollwheel: false,
           zoom: 12
         });
+    };
 
+function yelpsearch(){
+    var queryURL = "https://radiant-taiga-55044.herokuapp.com/yelp/search?term=food&location=San+Francisco"
+    $.ajax({url: queryURL, method: "GET"
+          }).done(function(response){
+             console.log(response);
+             console.log(queryURL);
 
-
-
-
-
-        
-};
-$(document).ready(drawRouletteWheel, initMap); 
+          
+          });
+      }
+$(document).ready(drawRouletteWheel, initMap, yelpsearch); 
