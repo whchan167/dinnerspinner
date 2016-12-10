@@ -11,7 +11,10 @@ var spinArcStart = 10;
 var spinTime = 0;
 var spinTimeTotal = 0;
 var ctx;
-   
+var chosenfood=[];
+ 
+ $("#spin").on("click", spin);
+
 function drawRouletteWheel() {
   var canvas = document.getElementById("canvas");
   if (canvas.getContext) {
@@ -74,7 +77,7 @@ function spin() {
   rotateWheel();
 }
 function rotateWheel() {
-  spinTime += 30;
+  spinTime += 20;
   if(spinTime >= spinTimeTotal) {
     stopRotateWheel();
     return;
@@ -94,6 +97,8 @@ function stopRotateWheel() {
   var text = restaraunts[index]
   ctx.fillText(text, 250 - ctx.measureText(text).width / 2, 250 + 10);
   ctx.restore();
+  chosenfood.push(text);
+  console.log(text);
 }
 function easeOut(t, b, c, d) {
   var ts = (t/=d)*t;
@@ -101,22 +106,17 @@ function easeOut(t, b, c, d) {
   return b+c*(tc + -3*ts + 3*t);
 }
 
-
-
 //==========google map API==========
 //create variable for coordinates
 var coordinates=[];
 var address;
 
-
 function geocodeAddress(geocoder, resultsMap) {
         geocoder.geocode({'address': address}, function(results, status) {
             if (status === 'OK') {
-            //coords = results[0].geometry.location;
-            //coordinates.push(coords.nb);
-            //coordinates.push(coords.ob);
-            //console.log(results);
+            console.log(results[0].geometry.location);
             resultsMap.setCenter(results[0].geometry.location);
+            coordinates.push(results[0].geometry.location);
             var marker = new google.maps.Marker({
               map: resultsMap,
               position: results[0].geometry.location
@@ -124,44 +124,34 @@ function geocodeAddress(geocoder, resultsMap) {
             }
        		});
     		};
-
+console.log(coordinates);
 
 //
 function initMap() {
-		//create geocoder to get coordinates
-		var geocoder = new google.maps.Geocoder();
+		  //create geocoder to get coordinates
+		  var geocoder = new google.maps.Geocoder();
 
-		//add event listener to add coordinates to the empty array
-		$("#submit").on("click", function(){
-		address = document.getElementById('address').value;
-		geocodeAddress(geocoder, map);
-		return false;
-		});
+		  //add event listener to add coordinates to the empty array
+		  $("#submit").on("click", function(){
+		  address = document.getElementById('address').value;
+		  geocodeAddress(geocoder, map);
+      return false;
+		  });
 
-		var location = {lat: coordinates[0], lng: coordinates[1]};
+		    var location = coordinates[0];
         // Create a map object and specify the DOM element for display.
         var map = new google.maps.Map(document.getElementById('map'), {
-          center: location,
+          center: {lat: 29.7051, lng: -95.4018},
           scrollwheel: false,
           zoom: 12
         });
 
-        var service = new google.maps.places.PlacesService(map);
-        service.nearbySearch({
-      	location: location,
-      	radius: 500,
-        }, processResults);
 
-        function processResults(result){
-  		console.log(result);
-		for (var i = 0; i<result.length; i++) {
-     		var marker = new google.maps.Marker({
-          		position: result[i].geometry.location,
-         		 map: map
-        	});
-  			}
-		}
 
-      };
-		
-	$(document).ready(drawRouletteWheel, spin, initMap);
+
+
+
+
+        
+};
+$(document).ready(drawRouletteWheel, initMap); 
