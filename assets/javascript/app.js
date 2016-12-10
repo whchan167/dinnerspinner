@@ -12,10 +12,6 @@ var spinArcStart = 10;
 var spinTime = 0;
 var spinTimeTotal = 0;
 var ctx;
-
-var foodnum=[];
- console.log(foodnum);
- $("#spin").on("click", spin);
     
 function drawRouletteWheel() {
   var canvas = document.getElementById("canvas");
@@ -99,10 +95,7 @@ function stopRotateWheel() {
   var text = restaurants[index]
   ctx.fillText(text, 250 - ctx.measureText(text).width / 2, 250 + 10);
   ctx.restore();
-  foodnum.push(index);
-  console.log(index);
-  console.log(foodnum);
-  yelpsearch(restaurants[index]);
+  yelpsearch(restaurants[index], address);
 }
 function easeOut(t, b, c, d) {
   var ts = (t/=d)*t;
@@ -113,22 +106,18 @@ function easeOut(t, b, c, d) {
 
 //==========google map API==========
 //create variable for coordinates
-var coordinates=[];
 var address;
 var map;
-var infoWindow;
 var service;
-
 
 function geocodeAddress(geocoder, resultsMap) {
         geocoder.geocode({'address': address}, function(results, status) {
             if (status === 'OK') {
             resultsMap.setCenter(results[0].geometry.location);
-            coordinates.push(results[0].geometry.location);
-            console.log(coordinates);
+
             var marker = new google.maps.Marker({
-              map: resultsMap,
-              position: results[0].geometry.location
+                map: resultsMap,
+                position: results[0].geometry.location
             });
           }
        	});
@@ -139,13 +128,6 @@ function initMap() {
 		  //create geocoder to get coordinates
 		  var geocoder = new google.maps.Geocoder();
 
-		  //add event listener to add coordinates to the empty array
-		  $("#submit").on("click", function(){
-		  address = document.getElementById('address').value;
-		  geocodeAddress(geocoder, map);
-      return false;
-		  });
-
         // Create a map object and specify the DOM element for display.
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 29.7051, lng: -95.4018},
@@ -153,16 +135,26 @@ function initMap() {
           zoom: 12
         });
 
+        $("#submit").on("click", function(){
+          address = document.getElementById('address').value;
+          geocodeAddress(geocoder, map);
+          spin();
+
+          return false;
+          });
+
     }
 
-function yelpsearch(restaurant){
-    var yelpURL = "http://localhost:5000/yelp/search?term=" + restaurant + "&location=houston";
+function yelpsearch(restaurant, location){
+    var yelpURL = "http://localhost:5000/yelp/search?term=" + restaurant + "&location=" + location;
     $.ajax({url: yelpURL, method: "GET"
           }).done(function(response){
              console.log(response);
              console.log(yelpURL);
 
+      
+
           
     });
       }
-$(document).ready(drawRouletteWheel, initMap);
+$(document).ready(drawRouletteWheel,initMap);
