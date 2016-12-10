@@ -146,7 +146,7 @@ function initMap() {
     }
 
 function yelpsearch(restaurant, location){
-    var yelpURL = "http://localhost:5000/yelp/search?term=" + restaurant + "&location=" + location;
+    var yelpURL = "https://localhost:5000/yelp/search?term=" + restaurant + "&location=" + location;
     $.ajax({url: yelpURL, method: "GET"
           }).done(function(response){
              console.log(response);
