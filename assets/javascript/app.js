@@ -14,20 +14,11 @@ var spinArcStart = 10;
 var spinTime = 0;
 var spinTimeTotal = 0;
 var ctx;
-<<<<<<< HEAD
+
 var chosenfood=[];
  
  $("#spin").on("click", spin);
-=======
-
-
-   
-    $("#spin").on('click', spin);
-  
     
-   
->>>>>>> 2a09574b51d1d3bb33b2f5c78af292ee8d1b72b1
-
 function drawRouletteWheel() {
   var canvas = document.getElementById("canvas");
   if (canvas.getContext) {
@@ -137,7 +128,6 @@ function geocodeAddress(geocoder, resultsMap) {
             }
        		});
     		};
-console.log(coordinates);
 
 //
 function initMap() {
@@ -161,17 +151,9 @@ function initMap() {
 
 
 
-<<<<<<< HEAD
-
 
 
 
         
 };
 $(document).ready(drawRouletteWheel, initMap); 
-=======
-      };
-		
-	$(document).ready(drawRouletteWheel, initMap);
-   // end of document ready function  
->>>>>>> 2a09574b51d1d3bb33b2f5c78af292ee8d1b72b1
