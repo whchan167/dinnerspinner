@@ -146,7 +146,7 @@ function initMap() {
     }
 
 function yelpsearch(restaurant, location){
-    var yelpURL = "https://radiant-taiga-55044.herokuapp.com/yelp/search?term=" + encodeURIComponent(restaurant) + " restaurant&location=" + encodeURIComponent(location) + "&limit=20";
+    var yelpURL = " https://radiant-taiga-55044.herokuapp.com/yelp/search?term=" + encodeURIComponent(restaurant) + " restaurant&location=" + encodeURIComponent(location) + "&limit=20";
     $.ajax({url: yelpURL, method: "GET"
           }).done(function(response){
              console.log(response);
@@ -156,9 +156,10 @@ function yelpsearch(restaurant, location){
              for (var i=0; i<response.businesses.length; i++) {
 
              //store the restaurant data in variable
-             var name = $("<p>").text("Name: " + response.businesses[i].name);
-             var address =$("<p>").text("Address: " + response.businesses[i].location.address);
-             var phone = $("<p>").text("Phone: " + response.businesses[i].display_phone);
+             var restname = $("<p>").text("Name: " + response.businesses[i].name);
+             var restaddress =$("<p>").text("Address: " + response.businesses[i].location.display_address);
+             var restphone = $("<p>").text("Phone: " + response.businesses[i].display_phone);
+             var restrating =$("<p>").text("Rating: " + ratingimage);
 
             //create a div tag to store each restaurant data:
             var restaurantDiv = $("<div class=restDiv>");
@@ -176,11 +177,12 @@ function yelpsearch(restaurant, location){
             restaurantimage.attr("src", response.businesses[i].image_url); 
 
             //append the paragraph and the animeimg to the animeDiv
-            restaurantDiv.append(name);
-            restaurantDiv.append(address);
-            restaurantDiv.append(phone);
-            restaurantDiv.append(ratingimage);
             restaurantDiv.append(restaurantimage);
+            restaurantDiv.append(restname);
+            restaurantDiv.append(restaddress);
+            restaurantDiv.append(restphone);
+            restaurantDiv.append(restrating);
+            
             console.log(restaurantDiv);
 
             //prepend restaurantDiv to the restaurantlist in html
