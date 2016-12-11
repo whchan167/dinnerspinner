@@ -146,16 +146,44 @@ function initMap() {
     }
 
 function yelpsearch(restaurant, location){
-    var yelpURL = "https://localhost:5000/yelp/search?term=" + restaurant + "&location=" + location;
+    var yelpURL = "http://localhost:5000/yelp/search?term=" + encodeURIComponent(restaurant + "restaurant") + "&location=" + encodeURIComponent(location) + "&limit=20";
     $.ajax({url: yelpURL, method: "GET"
           }).done(function(response){
              console.log(response);
              console.log(yelpURL);
 
+             //use for loop to loop through each item
+             for (var i=0; i<response.length; i++) {
 
-      
+             //store the restaurant data in variable
+             var name = $("<p>").text("Name: " + response[i].businesses.name);
+             var address =$("<p>").text("Address: " + response[i].businesses.location.display_address[0] + response.businesses.location.display_address[1] + response.businesses.location.display_address[2]);
+             var phone = $("<p>").text("Phone: " + response[i].businesses.display_phone);
+             var rating = $("<p>").text("Rating: " + response[i].businesses.rating_img_url_small);
+             console.log(response);
 
-          
-    });
+            //create a div tag to store each restaurant data:
+            var restaurantDiv = $("<div>");
+
+            //create image tag to store image
+            var image = $("<img>");
+
+            //set attribute to image tag
+            image.attr("src", response[i].businesses.snippet_image_url); 
+
+            //append the paragraph and the animeimg to the animeDiv
+            restaurantDiv.append(name);
+            restaurantDiv.append(address);
+            restaurantDiv.append(phone);
+            restaurantDiv.append(rating);
+            restaurantDiv.append(image);
+            console.log(restaurantDiv);
+
+            //prepend restaurantDiv to the restaurantlist in html
+            $("#restaurantlist").prepend(restaurantDiv);
+
+             }
+          });
       }
+
 $(document).ready(drawRouletteWheel,initMap);
