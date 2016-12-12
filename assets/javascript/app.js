@@ -139,14 +139,14 @@ function initMap() {
           address = document.getElementById('address').value;
           geocodeAddress(geocoder, map);
           spin();
-
+          $("#restaurantlist").empty();
           return false;
           });
 
     }
 
 function yelpsearch(restaurant, location){
-    var yelpURL = " https://radiant-taiga-55044.herokuapp.com/yelp/search?term=" + encodeURIComponent(restaurant) + " restaurant&location=" + encodeURIComponent(location) + "&limit=20";
+    var yelpURL = " http://localhost:5000/yelp/search?term=" + encodeURIComponent(restaurant) + " style restaurant&location=" + encodeURIComponent(location) + "&limit=20";
     $.ajax({url: yelpURL, method: "GET"
           }).done(function(response){
              console.log(response);
@@ -155,11 +155,12 @@ function yelpsearch(restaurant, location){
              //use for loop to loop through each item
              for (var i=0; i<response.businesses.length; i++) {
 
+
              //store the restaurant data in variable
              var restname = $("<p>").text("Name: " + response.businesses[i].name);
              var restaddress =$("<p>").text("Address: " + response.businesses[i].location.display_address);
              var restphone = $("<p>").text("Phone: " + response.businesses[i].display_phone);
-             var restrating =$("<p>").text("Rating: " + ratingimage);
+             
 
             //create a div tag to store each restaurant data:
             var restaurantDiv = $("<div class=restDiv>");
@@ -168,28 +169,31 @@ function yelpsearch(restaurant, location){
             var ratingimage = $("<img>");
 
             //set attribute to rating image tag
-            ratingimage.attr("src", response.businesses[i].rating_img_url_small)
+            ratingimage.attr("src", response.businesses[i].rating_img_url_small);
 
             //create restaurant image tag to store image
-            var restaurantimage = $("<img>");
+            var restaurantimage = $("<img class='resimage'>");
 
             //set attribute to image tag
             restaurantimage.attr("src", response.businesses[i].image_url); 
 
             //append the paragraph and the animeimg to the animeDiv
             restaurantDiv.append(restaurantimage);
+
+            restaurantDiv.append(ratingimage); 
             restaurantDiv.append(restname);
             restaurantDiv.append(restaddress);
             restaurantDiv.append(restphone);
-            restaurantDiv.append(restrating);
-            
+          
             console.log(restaurantDiv);
 
             //prepend restaurantDiv to the restaurantlist in html
             $("#restaurantlist").prepend(restaurantDiv);
 
-             }
-          });
+
+            
+          }
+        });
       }
 
 $(document).ready(drawRouletteWheel,initMap);
