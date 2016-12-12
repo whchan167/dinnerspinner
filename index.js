@@ -15,10 +15,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/', function (req, res) {
-	res.send('hello world');
-})
-
 app.get('/yelp/search', function (req, res) {
 	yelp.search(req.query)
 		.then(function (data) {
