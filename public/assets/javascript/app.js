@@ -1,7 +1,8 @@
-
+//setting variables for wheels' color and type of restaurants
 var colors = ["#B8D430", "#3AB745", "#029990", "#3501CB",
              "#2E2C75", "#673A7E", "#CC0071", "#F80120",
              "#F35B20", "#FB9A00", "#FFCC00", "#FEF200","#FB9A00", "#FFCC00"];
+
 var restaurants = ["Korean", "Indian", "Italian", "Sandwiches","Burgers", "Breakfast",
                    "Mexican", "Caribbean","Vietnamese", "Chinese",
                    "Seafood", "Pizza", "Thai", "Japanese"];
@@ -12,7 +13,8 @@ var spinArcStart = 10;
 var spinTime = 0;
 var spinTimeTotal = 0;
 var ctx;
-    
+ 
+//the wheel was created by canvas   
 function drawRouletteWheel() {
   var canvas = document.getElementById("canvas");
   if (canvas.getContext) {
@@ -109,44 +111,61 @@ function easeOut(t, b, c, d) {
 var address;
 var map;
 var service;
+var markers = [];
 
+//
+function initMap() {
+		      //create geocoder to get coordinates
+		      var geocoder = new google.maps.Geocoder();
+
+          // Create a map object and specify the DOM element for display.
+          map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 29.7051, lng: -95.4018},
+          scrollwheel: false,
+          zoom: 13
+          });
+
+        $("#submit").on("click", function(){
+          //store the address in variable
+          address = document.getElementById('address').value;
+          
+          //initialize the geocoding function to pinpoint the address.
+          geocodeAddress(geocoder, map);
+          
+          //once click the button, the wheel spins
+          spin();
+
+          //empty the previous restaurant display
+          $("#restaurantlist").empty();
+
+          //clear all markers on the map
+          for (var i=0; i<markers.length; i++) {
+          markers[i].setMap(null);
+          }
+
+          //the page will not refresh
+          return false;
+          });
+         }
+
+//geocoding function from google map API
 function geocodeAddress(geocoder, resultsMap) {
         geocoder.geocode({'address': address}, function(results, status) {
             if (status === 'OK') {
             resultsMap.setCenter(results[0].geometry.location);
 
-            var marker = new google.maps.Marker({
+                marker = new google.maps.Marker({
                 map: resultsMap,
                 position: results[0].geometry.location
             });
           }
-       	});
-    	};
-
-//
-function initMap() {
-		  //create geocoder to get coordinates
-		  var geocoder = new google.maps.Geocoder();
-
-        // Create a map object and specify the DOM element for display.
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 29.7051, lng: -95.4018},
-          scrollwheel: false,
-          zoom: 12
         });
+      };
 
-        $("#submit").on("click", function(){
-          address = document.getElementById('address').value;
-          geocodeAddress(geocoder, map);
-          spin();
-          $("#restaurantlist").empty();
-          return false;
-          });
-
-    }
-
+//query yelp search API
 function yelpsearch(restaurant, location){
-    var yelpURL = "/yelp/search?term=" + encodeURIComponent(restaurant) + " style restaurant&location=" + encodeURIComponent(location) + "&limit=20";
+    //query url and grab the response from yelp API
+    var yelpURL = "/yelp/search?term=" + encodeURIComponent(restaurant) + "&food&restaurant&location=" + encodeURIComponent(location) + "&limit=20";
     $.ajax({url: yelpURL, method: "GET"
           }).done(function(response){
              console.log(response);
@@ -177,7 +196,7 @@ function yelpsearch(restaurant, location){
             //set attribute to image tag
             restaurantimage.attr("src", response.businesses[i].image_url); 
 
-            //append the paragraph and the animeimg to the animeDiv
+            //append the restuarant data to restaurant Div
             restaurantDiv.append(restaurantimage);
 
             restaurantDiv.append(ratingimage); 
@@ -185,15 +204,22 @@ function yelpsearch(restaurant, location){
             restaurantDiv.append(restaddress);
             restaurantDiv.append(restphone);
           
-            console.log(restaurantDiv);
-
             //prepend restaurantDiv to the restaurantlist in html
             $("#restaurantlist").prepend(restaurantDiv);
 
+            //markers to pinpoints all restuarant locations on the restaurant list.
+            marker = new google.maps.Marker({
+            position: {lat: response.businesses[i].location.coordinate.latitude, lng: response.businesses[i].location.coordinate.longitude},
+            map: map
+           });
 
-            
+            //push marker to the global markers array and later used to clear all markers on map
+            markers.push(marker);
+
+            //click on the 
           }
         });
       }
 
+//start the page with the display of the wheel and google map
 $(document).ready(drawRouletteWheel,initMap);
