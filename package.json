@@ -4,13 +4,15 @@
   "description": "a quick node express app",
   "main": "index.js",
   "scripts": {
-    "start" : "node index.js",
+    "start": "node index.js",
+    "build": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "michellenguyen",
   "license": "ISC",
   "dependencies": {
     "express": "^4.14.0",
+    "nodemon": "^1.11.0",
     "yelp": "^1.0.1"
   }
 }

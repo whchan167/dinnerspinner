@@ -96,6 +96,9 @@ function stopRotateWheel() {
   ctx.fillText(text, 250 - ctx.measureText(text).width / 2, 250 + 10);
   ctx.restore();
   yelpsearch(restaurants[index], address);
+
+   //displays table here
+$('#resultsTable').removeClass('hidden');
 }
 function easeOut(t, b, c, d) {
   var ts = (t/=d)*t;
@@ -144,13 +147,17 @@ function initMap() {
           });
 
     }
-
 function yelpsearch(restaurant, location){
-    var yelpURL = "/yelp/search?term=" + encodeURIComponent(restaurant) + " style restaurant&location=" + encodeURIComponent(location) + "&limit=20";
-    $.ajax({url: yelpURL, method: "GET"
+  var yelpURL = "/yelp/search?term=" + encodeURIComponent(restaurant) + " style restaurant&location=" + encodeURIComponent(location) + "&limit=3";
+  $.ajax({url: yelpURL, method: "GET"
           }).done(function(response){
              console.log(response);
              console.log(yelpURL);
+
+             
+             //function add pins and table
+             //for loop over results until 3 results (0-2)
+             //for each result add pin to google map and create a table row and append to table in html
 
              //use for loop to loop through each item
              for (var i=0; i<response.businesses.length; i++) {
@@ -160,7 +167,7 @@ function yelpsearch(restaurant, location){
              var restname = $("<p>").text("Name: " + response.businesses[i].name);
              var restaddress =$("<p>").text("Address: " + response.businesses[i].location.display_address);
              var restphone = $("<p>").text("Phone: " + response.businesses[i].display_phone);
-             
+             //create class for spaces and layout of results in css
 
             //create a div tag to store each restaurant data:
             var restaurantDiv = $("<div class=restDiv>");
@@ -170,9 +177,11 @@ function yelpsearch(restaurant, location){
 
             //set attribute to rating image tag
             ratingimage.attr("src", response.businesses[i].rating_img_url_small);
+            //find out in api if you can receive text for rating and create own star system
 
             //create restaurant image tag to store image
             var restaurantimage = $("<img class='resimage'>");
+
 
             //set attribute to image tag
             restaurantimage.attr("src", response.businesses[i].image_url); 
