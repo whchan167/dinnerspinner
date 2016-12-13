@@ -165,7 +165,7 @@ function geocodeAddress(geocoder, resultsMap) {
 //query yelp search API
 function yelpsearch(restaurant, location){
     //query url and grab the response from yelp API
-    var yelpURL = "/yelp/search?term=" + encodeURIComponent(restaurant) + "&food&restaurant&location=" + encodeURIComponent(location) + "&limit=20";
+    var yelpURL = "/yelp/search?term=" + encodeURIComponent(restaurant) + "&food&restaurant&location=" + encodeURIComponent(location) + "&limit=3";
     $.ajax({url: yelpURL, method: "GET"
           }).done(function(response){
              console.log(response);
