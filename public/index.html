@@ -17,45 +17,45 @@
 
     <script async defer 
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3WjE2RZUtl1Tz-dP8-rthqZVAfox_Ztg&libraries=places&callback=initMap">
-
     </script>
 </head>
 
 <body>
-	<div class="container">
-		<header class="text-center">
-			<h2>Can't decide what you want for dinner?</h2>
-			<h2>Dinner Spinner is here for you!</h2>
-		</header>
+    <div class="container">
+        <header class="text-center">
+            <h2>Can't decide what you want for dinner?</h2>
+            <h2>Dinner Spinner is here for you!</h2>
+        </header>
 		
 		<div class="row">
 			<div class="col-md-6">
 			<canvas id="canvas" width="500" height="500"></canvas>
 			</div>
-			<div class="col-md-6" id="restaurantlist">
-
-		<table id=resultsTable class="table hideTable hidden table-hover">                
-                </table>
-
-			</div>	
-		</div>
-	<div>
-		
-        <!--The form user enter address to confine the list of restaurant-->
-		<div class="panel panel-default">
-			<div class="panel panel-heading">
-			  <form id="addressform">
+			<div class="col-md-2">
+			</div>
+			<div class="col-md-4">
+			<!--The form user enter address to confine the list of restaurant-->
+			<form id="addressform">
 			  <label for="address"><h4>Enter your Address</h4></label>
 			  <input class="form-control input-lg" type="text" id="address" value="77030">
 			  <!--Button triggered to add a zip code-->
 			  <button id="submit">Spin the Wheel!</button>
-			</div>
-			
-			<div class="panel panel-body" id="map">
-			googlemap here
+			</form>
 			</div>
 		</div>
 	</div>
+
+	<div class="container">	
+		<div id="restauranttable">
+		</div>
+	</div>
+	<br><br>
+	<div class="container">
+		<div id="map">
+		googlemap here
+		</div>
+	</div>
+	
 </body>
 	<script type="text/javascript" src="assets/javascript/app.js"></script>
 </html>

@@ -98,9 +98,6 @@ function stopRotateWheel() {
   ctx.fillText(text, 250 - ctx.measureText(text).width / 2, 250 + 10);
   ctx.restore();
   yelpsearch(restaurants[index], address);
-
-   //displays table here
-$('#resultsTable').removeClass('hidden');
 }
 function easeOut(t, b, c, d) {
   var ts = (t/=d)*t;
@@ -168,7 +165,7 @@ function geocodeAddress(geocoder, resultsMap) {
 //query yelp search API
 function yelpsearch(restaurant, location){
     //query url and grab the response from yelp API
-    var yelpURL = "/yelp/search?term=" + encodeURIComponent(restaurant) + "&food&restaurant&location=" + encodeURIComponent(location) + "&limit=3";
+    var yelpURL = "http://localhost:5000/yelp/search?term=" + encodeURIComponent(restaurant) + "&food&restaurant&location=" + encodeURIComponent(location) + "&limit=20";
     $.ajax({url: yelpURL, method: "GET"
           }).done(function(response){
              console.log(response);
@@ -215,18 +212,18 @@ function yelpsearch(restaurant, location){
             restaurantDiv.append(restphone);
           
             //prepend restaurantDiv to the restaurantlist in html
-            $("#restaurantlist").prepend(restaurantDiv);
+            $("#restauranttable").prepend(restaurantDiv);
 
             //markers to pinpoints all restuarant locations on the restaurant list.
             marker = new google.maps.Marker({
             position: {lat: response.businesses[i].location.coordinate.latitude, lng: response.businesses[i].location.coordinate.longitude},
             map: map
-           });
+            });
 
             //push marker to the global markers array and later used to clear all markers on map
             markers.push(marker);
 
-            //click on the 
+            //add event listener to display infobox when click on the 
           }
         });
       }
