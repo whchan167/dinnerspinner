@@ -136,7 +136,7 @@ function initMap() {
           spin();
 
           //empty the previous restaurant display
-          $("#restaurantlist").empty();
+          $("#restauranttable").empty();
 
           //clear all markers on the map
           for (var i=0; i<markers.length; i++) {
