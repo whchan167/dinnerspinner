@@ -45,7 +45,6 @@ function drawRouletteWheel() {
       ctx.shadowOffsetX = -1;
       ctx.shadowOffsetY = -1;
       ctx.shadowBlur    = 0;
-      ctx.shadowColor   = "rgb(220,220,220)";
       ctx.fillStyle = "black";
       ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius,
                     250 + Math.sin(angle + arc / 2) * textRadius);
@@ -165,7 +164,7 @@ function geocodeAddress(geocoder, resultsMap) {
 //query yelp search API
 function yelpsearch(restaurant, location){
     //query url and grab the response from yelp API
-    var yelpURL = "/yelp/search?term=" + encodeURIComponent(restaurant) + "&food&restaurant&location=" + encodeURIComponent(location) + "&limit=20";
+    var yelpURL = "/yelp/search?term=" + encodeURIComponent(restaurant) + "&food&restaurant&location=" + encodeURIComponent(location) + "&limit=3";
     $.ajax({url: yelpURL, method: "GET"
           }).done(function(response){
              console.log(response);
