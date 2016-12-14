@@ -45,7 +45,7 @@ function drawRouletteWheel() {
       ctx.shadowOffsetX = -1;
       ctx.shadowOffsetY = -1;
       ctx.shadowBlur    = 0;
-      ctx.shadowColor   = "rgb(220,220,220)";
+      //ctx.shadowColor   = "rgb(220,220,220)";
       ctx.fillStyle = "black";
       ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius,
                     250 + Math.sin(angle + arc / 2) * textRadius);
@@ -165,7 +165,7 @@ function geocodeAddress(geocoder, resultsMap) {
 //query yelp search API
 function yelpsearch(restaurant, location){
     //query url and grab the response from yelp API
-    var yelpURL = "/yelp/search?term=" + encodeURIComponent(restaurant) + "&food&restaurant&location=" + encodeURIComponent(location) + "&limit=20";
+    var yelpURL = "http://localhost:5000/yelp/search?term=" + encodeURIComponent(restaurant) + "&food&restaurant&location=" + encodeURIComponent(location) + "&limit=3";
     $.ajax({url: yelpURL, method: "GET"
           }).done(function(response){
              console.log(response);
@@ -210,8 +210,8 @@ function yelpsearch(restaurant, location){
             restaurantDiv.append(restname);
             restaurantDiv.append(restaddress);
             restaurantDiv.append(restphone);
-          
-            //prepend restaurantDiv to the restaurantlist in html
+           
+            //prepend restaurantDiv to the restaurant list in html
             $("#restauranttable").prepend(restaurantDiv);
 
             //markers to pinpoints all restuarant locations on the restaurant list.
@@ -220,10 +220,18 @@ function yelpsearch(restaurant, location){
             map: map
             });
 
+            //setting the infowindow method
+            var infowindow = new google.maps.InfoWindow({
+              content: restaurantDiv.html()
+            });
+            
             //push marker to the global markers array and later used to clear all markers on map
             markers.push(marker);
 
-            //add event listener to display infobox when click on the 
+            //add event listener to display infobox when click the marker
+            marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
           }
         });
       }

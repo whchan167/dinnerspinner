@@ -18,18 +18,27 @@
 </head>
 
 <body>
-    <div class="container">
-        <header class="jumbotron text-center">
-            <h2>Can't decide what you want for dinner?</h2>
-            <h2>Dinner Spinner is here for you!</h2>
-        </header>
-		
+	<div class="container">
+ 	  	<div class="jumbotron text-center" style="background: url('assets/images/dinner2.jpg')">
+    			<div class="row">
+                	<div class="col-md-8 col-md-offset-2">
+            		<h1 class="brand-heading">Can't decide what you want for dinner?</h1>
+            		<h2>Dinner Spinner is here for you!</h2>
+            		</div>
+            	</div>
+      	</div>
+
 		<div class="row">
-			<div class="col-md-7">
+			<div class="col-md-6">
 			<canvas id="canvas" width="600" height="600"></canvas>
 			</div>
-			<div class="col-md-5">
-			<!--The form user enter address to confine the list of restaurant-->
+			<div class="col-md-6" id="restauranttable">
+			</div>
+		</div>
+	</div>
+
+		<div class="container">	
+			<!--The form user enter address to confine the list of restaurants-->
 			<form id="addressform">
 			  <label for="address"><h4>Enter your Address</h4></label>
 			  <input class="form-control input-lg" type="text" id="address" value="77030">
@@ -37,15 +46,9 @@
 			  <br>
 			  <button id="submit">Spin the Wheel!</button>
 			</form>
-			</div>
 		</div>
-	</div>
 
-	<div class="container">	
-		<div id="restauranttable">
-		</div>
-	</div>
-	<br><br>
+	<br>
 	<div class="container">
 		<div id="map">
 		googlemap here
