@@ -46,6 +46,7 @@ function drawRouletteWheel() {
       ctx.shadowOffsetY = -1;
       ctx.shadowBlur    = 0;
       //ctx.shadowColor   = "rgb(220,220,220)";
+      
       ctx.fillStyle = "black";
       ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius,
                     250 + Math.sin(angle + arc / 2) * textRadius);
