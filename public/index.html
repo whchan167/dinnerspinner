@@ -4,10 +4,14 @@
 <head>
     <title>Dinner Spinner</title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
     <!--Bootstrap File-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+     <!-- Custom CSS -->
+    <link href="assets/css/stylish-portfolio.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     
     <!--jquery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -18,43 +22,54 @@
 </head>
 
 <body>
-	<div class="container">
- 	  	<div class="jumbotron text-center" style="background: url('assets/images/dinner2.jpg')">
-    			<div class="row">
-                	<div class="col-md-8 col-md-offset-2">
-            		<h1 class="brand-heading">Can't decide what you want for dinner?</h1>
-            		<h2>Dinner Spinner is here for you!</h2>
-            		</div>
-            	</div>
-      	</div>
+    <!-- Header -->
+    <header id="home" class="header">
+        <div class="text-center")">
+            <p id="titletext">Dinner Spinner</p>
+            <h1>Can't decide what you want for dinner?</h1>
+            <h3>Dinner Spinner is here for you!</h3>
+            <br>
+            <a href="#about" class="btn btn-dark btn-lg">Click to start</a>
+        </div>
+    </header>
 
-		<div class="row">
-			<div class="col-md-6">
-			<canvas id="canvas" width="600" height="600"></canvas>
-			</div>
-			<div class="col-md-6" id="restauranttable">
-			</div>
-		</div>
-	</div>
+    <!-- About -->
+    <section id="about" class="about">
+        <div class="container">
+            <!--The form user enter address to confine the list of restaurants-->
+            <form id="addressform">
+              <label for="address"><h2 style="color: white">Enter your Address</h2></label>
+              <input class="form-control input-lg" type="text" id="address" value="77030">
+              <!--Button triggered to add a zip code-->
+              <br>
+              <button id="submit" class="btn btn-dark btn-lg">Spin the Wheel!</button>
+            </form>
+            
+            <div class="row">
+                <div class="col-md-6">
+                <canvas id="canvas" width="600" height="600"></canvas>
+                </div>
+                <div class="col-md-6" id="restauranttable">
+                </div>
+                <div class="col-md-1" id="clickmap">
+                </div>
+            </div>
+        </div>
+    </section>
 
-		<div class="container">	
-			<!--The form user enter address to confine the list of restaurants-->
-			<form id="addressform">
-			  <label for="address"><h4>Enter your Address</h4></label>
-			  <input class="form-control input-lg" type="text" id="address" value="77030">
-			  <!--Button triggered to add a zip code-->
-			  <br>
-			  <button id="submit">Spin the Wheel!</button>
-			</form>
-		</div>
-
-	<br>
-	<div class="container">
-		<div id="map">
-		googlemap here
-		</div>
-	</div>
-	
+    <div id="map">
+    googlemap here
+    </div>
+    
+    <div class="click">
+    <a href="#home" class="btn btn-dark btn-lg">Click here to font page! because it is awesome</a>
+    <a href="#about" class="btn btn-dark btn-lg">Click to play the wheel again! because it is fun</a>
+    </div>
+    
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
 </body>
-	<script type="text/javascript" src="assets/javascript/app.js"></script>
+
+    <script type="text/javascript" src="assets/javascript/app.js"></script>
 </html>
+

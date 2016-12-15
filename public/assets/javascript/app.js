@@ -46,7 +46,7 @@ function drawRouletteWheel() {
       ctx.shadowOffsetY = -1;
       ctx.shadowBlur    = 0;
       //ctx.shadowColor   = "rgb(220,220,220)";
-      
+
       ctx.fillStyle = "black";
       ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius,
                     250 + Math.sin(angle + arc / 2) * textRadius);
@@ -136,8 +136,9 @@ function initMap() {
           //once click the button, the wheel spins
           spin();
 
-          //empty the previous restaurant display
+          //empty the previous restaurant display and "click to see the map" box
           $("#restauranttable").empty();
+          $("#clickmap").hide();
 
           //clear all markers on the map
           for (var i=0; i<markers.length; i++) {
@@ -214,13 +215,14 @@ function yelpsearch(restaurant, location){
            
             //prepend restaurantDiv to the restaurant list in html
             $("#restauranttable").prepend(restaurantDiv);
-
+            $("#clickmap").html("<button><a href='#map'>Click to see the map</button>").show();
+            
             //markers to pinpoints all restuarant locations on the restaurant list.
             marker = new google.maps.Marker({
             position: {lat: response.businesses[i].location.coordinate.latitude, lng: response.businesses[i].location.coordinate.longitude},
             map: map
             });
-
+            console.log(marker);
             //setting the infowindow method
             var infowindow = new google.maps.InfoWindow({
               content: restaurantDiv.html()
