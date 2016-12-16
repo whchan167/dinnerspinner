@@ -78,7 +78,7 @@ function spin() {
   rotateWheel();
 }
 function rotateWheel() {
-  spinTime += 20;
+  spinTime += 10;
   if(spinTime >= spinTimeTotal) {
     stopRotateWheel();
     return;
@@ -113,6 +113,7 @@ var address;
 var map;
 var service;
 var markers = [];
+var restmarkerinfo = [];
 
 //
 function initMap() {
@@ -186,7 +187,6 @@ function yelpsearch(restaurant, location){
              var restname = $("<p>").text("Name: " + response.businesses[i].name);
              var restaddress =$("<p>").text("Address: " + response.businesses[i].location.display_address);
              var restphone = $("<p>").text("Phone: " + response.businesses[i].display_phone);
-             //create class for spaces and layout of results in css
 
             //create a div tag to store each restaurant data:
             var restaurantDiv = $("<div class=restDiv>");
@@ -216,25 +216,27 @@ function yelpsearch(restaurant, location){
             //prepend restaurantDiv to the restaurant list in html
             $("#restauranttable").prepend(restaurantDiv);
             $("#clickmap").html("<button><a href='#map'>Click to see the map</button>").show();
-            
+            console.log(restaurantDiv[0])
+
             //markers to pinpoints all restuarant locations on the restaurant list.
             marker = new google.maps.Marker({
             position: {lat: response.businesses[i].location.coordinate.latitude, lng: response.businesses[i].location.coordinate.longitude},
             map: map
             });
-            console.log(marker);
-            //setting the infowindow method
-            var infowindow = new google.maps.InfoWindow({
-              content: restaurantDiv.html()
-            });
             
             //push marker to the global markers array and later used to clear all markers on map
             markers.push(marker);
-
+            restmarkerinfo.push(restaurantDiv[0])
+            console.log(restmarkerinfo)
             //add event listener to display infobox when click the marker
             marker.addListener('click', function() {
             infowindow.open(map, marker);
           });
+
+            //setting the infowindow method
+            var infowindow = new google.maps.InfoWindow({
+              content: restmarkerinfo[i]
+            });
           }
         });
       }
