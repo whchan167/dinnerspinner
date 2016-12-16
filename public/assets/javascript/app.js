@@ -1,7 +1,9 @@
 //setting variables for wheels' color and type of restaurants
-var colors = ["#B8D430", "#3AB745", "#029990", "#3501CB",
-             "#2E2C75", "#673A7E", "#CC0071", "#F80120",
-             "#F35B20", "#FB9A00", "#FFCC00", "#FEF200","#FB9A00", "#FFCC00"];
+var colors = ["#D2B48C","#89a075","#D2B48C","#89a075","#D2B48C","#89a075","#D2B48C","#89a075","#D2B48C","#89a075","#D2B48C","#89a075","#D2B48C"];
+
+//"#B8D430", "#3AB745", "#029990", "#3501CB",
+             //"#2E2C75", "#673A7E", "#CC0071", "#F80120",
+             //"#F35B20", "#FB9A00", "#FFCC00", "#FEF200","#FB9A00", "#FFCC00"];
 
 var restaurants = ["Korean", "Indian", "Italian", "Sandwiches","Burgers", "Breakfast",
                    "Mexican", "Caribbean","Vietnamese", "Chinese",
@@ -20,7 +22,7 @@ function drawRouletteWheel() {
   if (canvas.getContext) {
     var outsideRadius = 220;
     var textRadius = 180;
-    var insideRadius = 135;
+    var insideRadius = 95;
    
     ctx = canvas.getContext("2d");
     ctx.clearRect(0,0,500,500);
@@ -29,7 +31,7 @@ function drawRouletteWheel() {
     ctx.strokeStyle = "black";
     ctx.lineWidth = 2;
    
-    ctx.font = 'bold 16px Helvetica, Arial';
+    ctx.font = '16px Bodoni';
    
     for(var i = 0; i < 12; i++) {
       var angle = startAngle + i * arc;
@@ -45,7 +47,7 @@ function drawRouletteWheel() {
       ctx.shadowOffsetX = -1;
       ctx.shadowOffsetY = -1;
       ctx.shadowBlur    = 0;
-      //ctx.shadowColor   = "rgb(220,220,220)";
+      
 
       ctx.fillStyle = "black";
       ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius,
