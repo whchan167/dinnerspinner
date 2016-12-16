@@ -1,13 +1,10 @@
 //setting variables for wheels' color and type of restaurants
 var colors = ["#D2B48C","#89a075","#D2B48C","#89a075","#D2B48C","#89a075","#D2B48C","#89a075","#D2B48C","#89a075","#D2B48C","#89a075","#D2B48C"];
 
-//"#B8D430", "#3AB745", "#029990", "#3501CB",
-             //"#2E2C75", "#673A7E", "#CC0071", "#F80120",
-             //"#F35B20", "#FB9A00", "#FFCC00", "#FEF200","#FB9A00", "#FFCC00"];
-
 var restaurants = ["Korean", "Indian", "Italian", "Sandwiches","Burgers", "Breakfast",
                    "Mexican", "Caribbean","Vietnamese", "Chinese",
                    "Seafood", "Pizza", "Thai", "Japanese"];
+                   
 var startAngle = 0;
 var arc = Math.PI / 6;
 var spinTimeout = null;
@@ -129,7 +126,7 @@ function initMap() {
           zoom: 13
           });
 
-        $("#submit").on("click", function(){
+          $("#submit").on("click", function(){
           //store the address in variable
           address = document.getElementById('address').value;
           
@@ -184,7 +181,6 @@ function yelpsearch(restaurant, location){
              //use for loop to loop through each item
              for (var i=0; i<response.businesses.length; i++) {
 
-
              //store the restaurant data in variable
              var restname = $("<p>").text("Name: " + response.businesses[i].name);
              var restaddress =$("<p>").text("Address: " + response.businesses[i].location.display_address);
@@ -229,15 +225,16 @@ function yelpsearch(restaurant, location){
             //push marker to the global markers array and later used to clear all markers on map
             markers.push(marker);
             restmarkerinfo.push(restaurantDiv[0])
-            console.log(restmarkerinfo)
+
             //add event listener to display infobox when click the marker
             marker.addListener('click', function() {
             infowindow.open(map, marker);
+            infowindow.setContent(html);
           });
 
             //setting the infowindow method
             var infowindow = new google.maps.InfoWindow({
-              content: restmarkerinfo[i]
+              content: restaurantDiv[0]
             });
           }
         });
